@@ -50,10 +50,14 @@ exports.addQuote = (req, res, next) => {
 exports.likeQuote = (req, res, next) => {
     const quoteId = req.params.quoteId
 
-    Quote.findOne({ _id: quoteId }).then((quote) => {
-        quote.likes = quote.likes + 1
-        quote.save()
-    })
+    Quote.findOne({ _id: quoteId })
+        .then((quote) => {
+            quote.likes = quote.likes + 1
+            return quote.save()
+        })
+        .then((data) => {
+            res.json(data)
+        })
 }
 
 exports.editQuote = (req, res, next) => {
