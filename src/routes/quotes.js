@@ -11,5 +11,6 @@ router.post('/add-quote', quotesController.addQuote)
 router.patch('/like/:quoteId', quotesController.likeQuote)
 router.patch('/edit/:quoteId', quotesController.editQuote)
 router.delete('/delete/:quoteId', quotesController.deleteQuote)
+router.delete('/delete-all', quotesController.deleteAll)
 
 module.exports = router

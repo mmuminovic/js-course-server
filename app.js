@@ -6,7 +6,7 @@ const helmet = require('helmet')
 const compression = require('compression')
 const morgan = require('morgan')
 const cors = require('cors')
-const { quoteRoutes } = require('./src/routes')
+const { quoteRoutes, userRoutes } = require('./src/routes')
 
 require('dotenv').config()
 
@@ -32,6 +32,7 @@ app.use(compression())
 app.use(cors({ origin: '*' }))
 
 app.use('/quotes', quoteRoutes)
+app.use('/user', userRoutes)
 
 mongoose
     .connect(MONGODB_URI, {

@@ -3,9 +3,13 @@ const Quote = require('../models/quote')
 const { shuffle } = require('../utils/shuffle')
 
 exports.getAllQuotes = (req, res, next) => {
-    Quote.find().then((quotes) => {
-        res.json(quotes)
-    })
+    Quote.find()
+        .then((quotes) => {
+            res.json(quotes)
+        })
+        .catch((err) => {
+            res.status(500).json({ err: err })
+        })
 }
 
 exports.getQuote = (req, res, next) => {
@@ -41,6 +45,7 @@ exports.addQuote = (req, res, next) => {
         quoteAuthor: req.body.quoteAuthor,
         quoteSource: req.body.quoteSource,
     })
+    console.log(req.body)
 
     newQuote.save().then((result) => {
         res.json(result)
@@ -63,12 +68,17 @@ exports.likeQuote = (req, res, next) => {
 exports.editQuote = (req, res, next) => {
     const quoteId = req.params.quoteId
     const newData = req.body
-    Quote.updateOne({ _id: quoteId }, newData).then((result) =>
-        res.json(result)
+    console.log(newData, quoteId)
+    Quote.updateOne({ _id: mongoose.Types.ObjectId(quoteId) }, newData).then(
+        (result) => res.json(result)
     )
 }
 
 exports.deleteQuote = (req, res, next) => {
     const quoteId = req.params.quoteId
     Quote.deleteOne({ _id: quoteId }).then((result) => res.json(result))
+}
+
+exports.deleteAll = (req, res, next) => {
+    Quote.deleteMany().then((result) => res.json(result))
 }
