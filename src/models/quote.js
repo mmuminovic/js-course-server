@@ -9,6 +9,7 @@ const quoteSchema = new Schema(
         quoteAuthor: String,
         quoteSource: String,
         likes: { type: Number, default: 0 },
+        category: { type: Schema.Types.ObjectId, ref: 'Category' },
     },
     { timestamps: true }
 )

@@ -12,6 +12,30 @@ exports.getAllQuotes = (req, res, next) => {
         })
 }
 
+exports.getAllQuotesByCategory = (req, res, next) => {
+    const condition = req.body.category
+        ? { category: req.body.category }
+        : undefined
+
+    Quote.find(condition)
+        .then((quotes) => {
+            res.json(quotes)
+        })
+        .catch((err) => {
+            res.status(500).json({ err: err })
+        })
+}
+
+exports.getAllQuotes = (req, res, next) => {
+    Quote.find()
+        .then((quotes) => {
+            res.json(quotes)
+        })
+        .catch((err) => {
+            res.status(500).json({ err: err })
+        })
+}
+
 exports.getQuote = (req, res, next) => {
     const quoteId = req.params.quoteId
     Quote.findOne({ _id: quoteId }).then((quote) => {
@@ -44,9 +68,8 @@ exports.addQuote = (req, res, next) => {
         quoteText: req.body.quoteText,
         quoteAuthor: req.body.quoteAuthor,
         quoteSource: req.body.quoteSource,
+        category: req.body.category || '',
     })
-    console.log(req.body)
-
     newQuote.save().then((result) => {
         res.json(result)
     })
@@ -68,7 +91,6 @@ exports.likeQuote = (req, res, next) => {
 exports.editQuote = (req, res, next) => {
     const quoteId = req.params.quoteId
     const newData = req.body
-    console.log(newData, quoteId)
     Quote.updateOne({ _id: mongoose.Types.ObjectId(quoteId) }, newData).then(
         (result) => res.json(result)
     )
