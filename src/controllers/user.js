@@ -39,7 +39,7 @@ exports.login = async (req, res, next) => {
                         isAdmin: user.isAdmin,
                         isGuest: user.isGuest,
                     },
-                    'itcamp',
+                    process.env.JWT_KEY,
                     { expiresIn: '365d' }
                 )
                 return res.status(200).json({
