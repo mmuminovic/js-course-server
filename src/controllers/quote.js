@@ -39,12 +39,7 @@ exports.getAllQuotes = (req, res, next) => {
 exports.getQuote = (req, res, next) => {
     const quoteId = req.params.quoteId
     Quote.findOne({ _id: quoteId }).then((quote) => {
-        res.json({
-            quoteText: quote.quoteText,
-            quoteAuthor: quote.quoteAuthor,
-            quoteSource: quote.quoteSource,
-            likes: quote.likes,
-        })
+        return res.json(quote)
     })
 }
 
